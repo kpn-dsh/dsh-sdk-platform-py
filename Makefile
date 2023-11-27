@@ -13,6 +13,7 @@ project:
 	echo "[tool.pyright]" >> pyproject.toml
 	echo 'reportMatchNotExhaustive = "error"' >> pyproject.tomlpoetry lock --no-update
 	poetry lock --no-update
+	poetry install --no-root
 	direnv allow
 
 build:

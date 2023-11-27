@@ -2,8 +2,6 @@ import packet
 import queue
 import threading
 
-# packet.
-
 
 def main():
     # Create a queue
