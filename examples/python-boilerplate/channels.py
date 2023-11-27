@@ -40,6 +40,3 @@ for _ in range(5):
 # Signal the worker to stop
 my_queue.put(None)
 worker_thread.join()
-
-# euan een en ander bekijken
-# troef sessie van twee uur voor overleg
