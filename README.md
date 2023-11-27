@@ -28,7 +28,9 @@ by default the docker points at the `main.py` file in the `src/` directory as ma
 ## creating a docker image from the repository
 
 1. make sure you are logged into the docker credentials that are retrieved from the DSH Harbor container registry, details about logging in and retrieving credentials can be found in the official DSH docs
+
 2. adjust the contant vars in the `Makefile` to match the environment you want to deploy the image in
+
 3. run `make all` while in the root directory of the project. the variables defined in the previous steps will be injected into the docker image built and it will be pushed to the DSH Harbor repo
 
 ## inspect your docker image
