@@ -1,6 +1,6 @@
 TENANT=training
 VERSION=0.1.0
-tagname=arar-test
+tagname=test
 tenantuserid=1054
 
 DOCKER_REPO_URL=registry.cp.kpn-dsh.com/$(TENANT)
@@ -13,7 +13,6 @@ project:
 	echo "[tool.pyright]" >> pyproject.toml
 	echo 'reportMatchNotExhaustive = "error"' >> pyproject.tomlpoetry lock --no-update
 	poetry lock --no-update
-	# poetry install --no-root
 	direnv allow
 
 build:
