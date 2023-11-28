@@ -26,7 +26,7 @@ def worker(queue: queue.Queue):
     while True:
         item = queue.get()
         if item is None:
-            break
+            continue
         packet.match(item)
 
 

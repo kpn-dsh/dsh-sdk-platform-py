@@ -32,6 +32,6 @@ def match(packet: Packet):
         case Header(protocol, size):
             logger.info(f"header {protocol} {size}")
         case Payload(data):
-            logger.info("payload {data}")
+            logger.debug("payload {data}")
         case Trailer(data, checksum):
             logger.info(f"trailer {checksum} {data}")

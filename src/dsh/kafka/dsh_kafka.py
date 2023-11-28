@@ -3,15 +3,9 @@ import os
 from confluent_kafka import Consumer, Producer
 from dataclasses import dataclass, fields
 from typing import Optional
-import logging
+from loguru import logger
 import sys
 import time
-
-# Set up logging
-logger = logging.getLogger("kafka_feed")
-loglevel = "DEBUG"
-logger.setLevel(loglevel)
-logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 @dataclass
@@ -88,21 +82,9 @@ def _delivery_report(err, msg):
     """Called once for each message produced to indicate delivery result.
     Triggered by poll() or flush()."""
     if err is not None:
-        logger.warning(f"Message delivery failed: {err} \n \n")
+        logger.warning(f"Message delivery failed: {err}")
     else:
-        logger.debug(f"Message delivered to {msg.topic()} [{msg.partition()}] \n \n")
-
-
-# def produce_message(producer: Producer, obj, topic) -> None:
-#     print("producing message...")
-#     try:
-#         # producer.poll(0)
-#         producer.produce(topic=topic, value=obj, callback=_delivery_report)
-#         # producer.flush()
-#         print(f"Message produced: {obj} \n")
-#
-#     except Exception as e:
-#         print(f"exception raised: {e}")
+        logger.info(f"Message delivered to {msg.topic()} [{msg.partition()}]")
 
 
 def produce_message(producer: Producer, obj, topic) -> None:
@@ -113,14 +95,14 @@ def produce_message(producer: Producer, obj, topic) -> None:
         try:
             producer.produce(topic=topic, value=obj, callback=_delivery_report)
             producer.poll(0)  # Poll to handle delivery reports
-            print(f"Message produced: {obj} \n")
+            logger.debug(f"Message produced: {obj}")
             return  # Message sent successfully
 
         except Exception as e:
-            print(f"Exception raised: {e}")
+            logger.warning(f"Exception raised: {e}")
             retries -= 1
             if retries > 0:
-                print(f"Retrying in {retry_delay} seconds...")
+                logger.debug(f"Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
                 retry_delay *= 1  # Exponential backoff
 

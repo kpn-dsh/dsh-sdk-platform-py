@@ -4,6 +4,7 @@ import sys
 import signal
 
 import dsh.kafka.dsh_kafka as kafka
+from loguru import logger
 
 
 def main():
@@ -23,7 +24,7 @@ def main():
 
 
 def handle_sigterm(signum, frame):
-    print("Receiving sigterm")
+    logger.warning("Receiving sigterm")
     sys.exit(1)
 
 
