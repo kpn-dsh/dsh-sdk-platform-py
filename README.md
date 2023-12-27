@@ -1,4 +1,4 @@
-# NOTE: EXPERIMENTAL
+# ⚠️NOTE: EXPERIMENTAL⚠️
 
 this sdk makes use of Nix in combination with direnv to allow for automatic venv creation and loading with the Python packaging tool Poetry.
 
