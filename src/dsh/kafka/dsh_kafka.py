@@ -4,7 +4,6 @@ from confluent_kafka import Consumer, Producer
 from dataclasses import dataclass, fields
 from typing import Optional
 from loguru import logger
-import sys
 import time
 
 
@@ -59,6 +58,7 @@ def create_producer(config: Config) -> Producer:
             "ssl.key.location": config.pki_key,
             "ssl.certificate.location": config.pki_cert,
             "ssl.ca.location": config.pki_cacert,
+            "queue.buffering.max.messages": 0,
         }
     )
 
@@ -95,7 +95,7 @@ def produce_message(producer: Producer, obj, topic) -> None:
         try:
             producer.produce(topic=topic, value=obj, callback=_delivery_report)
             producer.poll(0)  # Poll to handle delivery reports
-            logger.debug(f"Message produced: {obj}")
+            logger.debug(f"Message produced: {obj}n")
             return  # Message sent successfully
 
         except Exception as e:
@@ -106,7 +106,7 @@ def produce_message(producer: Producer, obj, topic) -> None:
                 time.sleep(retry_delay)
                 retry_delay *= 1  # Exponential backoff
 
-    print("Failed to send the message after retries.")
+    logger.warning("Failed to send the message after retries.")
 
 
 def consume_topic(consumer: Consumer, topic: str):
@@ -129,7 +129,6 @@ def consume_topic(consumer: Consumer, topic: str):
         if msg.error():
             logger.error(f"Consumer error: {msg.error()}")
             continue
-
         value = msg.value()
         if value is not None:
             yield value
