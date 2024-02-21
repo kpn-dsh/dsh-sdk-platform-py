@@ -24,6 +24,7 @@
       };
 
       defaultApp = pkgs.myApp;
+      defaultPackage = pkgs.myApp;
 
       devShell =
         let
@@ -34,7 +35,9 @@
           packages = with pkgs; [
             poetry
             pyright
+            maturin
           ];
+
           venvDir = "./.venv";
           postVenvCreation = ''
             unset SOURCE_DATE_EPOCH

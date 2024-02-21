@@ -1,6 +1,6 @@
 TENANT=training
 VERSION=0.1.0
-tagname=test
+tagname=arar-test
 tenantuserid=1054
 
 DOCKER_REPO_URL=registry.cp.kpn-dsh.com/$(TENANT)
@@ -9,7 +9,7 @@ image=$(DOCKER_REPO_URL)/$(tagname):$(VERSION)
 project:
 	git init
 	git add .
-	poetry init --dependency=loguru --dependency=icecream
+	poetry init --dependency=loguru --dependency=icecream --dependency=pydantic
 	echo "[tool.pyright]" >> pyproject.toml
 	echo 'reportMatchNotExhaustive = "error"' >> pyproject.toml
 	poetry lock --no-update
