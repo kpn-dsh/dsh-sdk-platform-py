@@ -13,9 +13,10 @@ def main():
 
     # Enqueue some items with pattern matching
     for _ in range(5):
-        my_queue.put(packet.Header(protocol="HTTP", size=10))
+        my_queue.put(packet.Header(name="header", protocol="HTTP", size=10))
         my_queue.put(packet.Payload(data="Hello"))
         my_queue.put(packet.Trailer(data="World", checksum=42))
+        my_queue.put(packet.Test(data="World", checksum=42))
 
     # Signal the worker to stop
     my_queue.put(None)
@@ -27,7 +28,7 @@ def worker(queue: queue.Queue):
         item = queue.get()
         if item is None:
             continue
-        packet.match(item)
+        packet.log(item)
 
 
 if __name__ == "__main__":

@@ -1,22 +1,26 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from pydantic import BaseModel, PositiveInt
 from loguru import logger
+from typing import assert_never
 
 
-@dataclass
-class Header:
+class Header(BaseModel):
+    name: str
     protocol: str
-    size: int
+    size: PositiveInt
 
 
-@dataclass
-class Payload:
+class Payload(BaseModel):
     data: str
 
 
-@dataclass
-class Trailer:
+class Trailer(BaseModel):
+    data: str
+    checksum: PositiveInt
+
+
+class Test(BaseModel):
     data: str
     checksum: int
 
@@ -24,14 +28,18 @@ class Trailer:
 Packet = Header | Payload | Trailer
 
 
-def match(packet: Packet):
-    if not isinstance(packet, Packet):
-        raise Exception("Invalid packet")
-
+@logger.catch(reraise=True)
+def log(packet: Packet):
+    # if not isinstance(packet, Packet):
+    #     raise Exception("Invalid packet")
     match packet:
-        case Header(protocol, size):
+        case Header(protocol=protocol, size=size):
             logger.info(f"header {protocol} {size}")
-        case Payload(data):
-            logger.debug("payload {data}")
-        case Trailer(data, checksum):
-            logger.info(f"trailer {checksum} {data}")
+            logger.info(packet.model_dump())
+        case Payload(data=data):
+            logger.debug(f"payload {data}")
+        case Trailer(data=data, checksum=checksum):
+            logger.warning(f"trailer {checksum} {data}")
+        case _:
+            logger.warning("")
+            assert_never(packet)
