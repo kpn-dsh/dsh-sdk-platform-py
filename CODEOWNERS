@@ -1,0 +1,8 @@
+# Code owners
+#
+# Use a `CODEOWNERS` file to define individuals or teams that are responsible for code in a repository. This may include group email box or the distribution list of the team responsible for the project.
+# See https://help.github.com/articles/about-codeowners/ for more information.
+
+# The entire repository is owned by a team
+* @artsbentley
+

@@ -183,7 +183,6 @@ echo DSH_PKI_CERT="$DSH_PKI_CERT"
 echo TENANT_NAME="$TENANT_NAME"
 echo DNS_NAME="$DNS_NAME"
 echo JSON_TENANT_CONFIG="$JSON_TENANT_CONFIG"
-echo "$SHARED_CONSUMER_GROUPS"
 
 ### End ###
 section "Completed setup tenant certificates and tenant configuration"

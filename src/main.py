@@ -18,7 +18,7 @@ def main():
     run = True
     index = 0
     while run:
-        kafka.produce_message(producer, f"bye world: {index}", PRODUCE_TOPIC)
+        kafka.produce_message(producer, f"hehehehe: {index}", PRODUCE_TOPIC)
         index += 1
         time.sleep(5)
 

@@ -1,6 +1,10 @@
-FROM python:3.11-buster
+FROM python:3.12-slim
 
-# Update package lists and install required dependencies
+ARG UID
+ARG GID=${UID}
+ARG USER=dsh
+ARG GROUP=dsh
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	openssl \
 	curl \
@@ -8,40 +12,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	librdkafka-dev \
 	libpq-dev
 
-# Install Poetry
-RUN pip install poetry
-
-ENV POETRY_NO_INTERACTION=1 \
-	POETRY_VIRTUALENVS_IN_PROJECT=1 \
-	POETRY_VIRTUALENVS_CREATE=1 \
-	POETRY_CACHE_DIR=/tmp/poetry_cache
-
-# Set up the PATH to include the Poetry binaries
-ENV PATH="${PATH}:/root/.poetry/bin"
-
-# Create and set up the working directory
-WORKDIR /app
-
-# Copy dsh dependencies
-COPY dsh-entrypoint ./
-
 # Create dsh group and user
-ARG tenantuserid
-ENV USERID $tenantuserid
-RUN addgroup --gid ${USERID} dsh && adduser --uid ${USERID} --gid ${USERID} --disabled-password --gecos "" dsh
+RUN addgroup --gid ${GID} dsh \
+	&& adduser --uid ${UID} --gid ${GID} --disabled-password --gecos "" ${USER}
 
-# Set ownership and permissions
-RUN chown -R $USERID:$USERID . && \
-	chmod +x /app/entrypoint.sh
-USER dsh
+# Copy the source code and dependencies
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY --chown=${UID}:${GID} --chmod=0755 dsh-entrypoint /home/dsh/dsh
+COPY --chown=${UID}:${GID} ./src/ /home/dsh/app/src/
+COPY --chown=${UID}:${GID} pyproject.toml uv.lock /home/dsh/app/
 
-# Install required Python packages and copy code
-COPY pyproject.toml poetry.lock ./
-RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
-COPY src/ ./src
+WORKDIR /home/dsh/app/
+RUN uv pip install -r pyproject.toml --system
+RUN uv pip install -e . --system
 
-
-# Entrypoint
-ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["poetry", "run", "python", "src/main.py"]
+USER ${USER}
+ENTRYPOINT ["/home/dsh/dsh/entrypoint.sh"]
+CMD ["python", "/home/dsh/app/src/main.py"]
 
