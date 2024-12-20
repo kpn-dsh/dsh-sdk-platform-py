@@ -8,10 +8,9 @@
 
 1. install Direnv on your machine, see [documentation](https://direnv.net/)
 
-2. Create a _layout_uv_ function
+2. Create a `layout_uv` function
    we can create a direnv function that will create an UV project for us and automatically activate
    our Python virtual environment for us for amazing DX:
-   ``
 
    ```bash
    mkdir -p ~/.config/direnv/
