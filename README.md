@@ -1,10 +1,10 @@
 > [!WARNING]
 > This SDK is experimental and under development
 
+## Direnv
+
 > [!TIP]
 > This repository uses the excellent and _blazingly fast_ [UV](https://github.com/astral-sh/uv) as Python package manager in combination with [direnv](https://github.com/direnv/direnv) to create a fast and great development experience. You're advised to follow the steps below to get the most out of [direnv](https://github.com/direnv/direnv)
-
-## setting up direnv
 
 1. install Direnv on your machine, see [documentation](https://direnv.net/)
 
