@@ -6,8 +6,7 @@
 
 ## setting up direnv
 
-1. install Direnv on your machine
-   [direnv documentation](https://direnv.net/)
+1. install Direnv on your machine, see [documentation](https://direnv.net/)
 
 2. Create a _layout_uv_ function
    we can create a direnv function that will create an UV project for us and automatically activate
