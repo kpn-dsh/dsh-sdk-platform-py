@@ -11,7 +11,7 @@
 2. Create a `layout_uv` function:
 
    We can create a direnv function that will create an UV project for us and automatically activate
-   our Python virtual environment for us for amazing DX:
+   our Python virtual environment:
 
    ```bash
    mkdir -p ~/.config/direnv/
