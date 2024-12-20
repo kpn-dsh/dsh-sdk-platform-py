@@ -1,5 +1,5 @@
 > [!WARNING]
-> This SDK is experimental and under development
+> This SDK is experimental and subdue to constant change and development
 
 ## Direnv
 
