@@ -67,4 +67,4 @@ by default the docker points at the `main.py` file in the `src/` directory as ma
 ## inspect your docker image
 
 use either the `just run` or `just dive` commands that are defined in the justfile to inspect image layers or run the image locally.
-`just dive` uses the "dive" cli tool, make sure this is installed locally on your machine: [Dive github repo]https://github.com/wagoodman/dive/blob/main/README.md
+`just dive` uses the "dive" cli tool, make sure this is installed locally on your machine: [Dive github repo](https://github.com/wagoodman/dive/blob/main/README.md)
