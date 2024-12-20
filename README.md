@@ -8,7 +8,9 @@
 
 1. install Direnv on your machine, see [documentation](https://direnv.net/)
 
-2. Create a `layout_uv` function:
+2. install UV on your machine, see [documentation](https://github.com/astral-sh/uv)
+
+3. Create a `layout_uv` function:
 
    We can create a direnv function that will create an UV project for us and automatically activate
    our Python virtual environment:
@@ -40,7 +42,7 @@
    }
    ```
 
-3. Setup your python project
+4. Setup your python project
 
 ```bash
 git clone https://github.com/kpn-dsh/dsh-sdk-platform-py.git
