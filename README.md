@@ -35,7 +35,7 @@
     fi
 
     PATH_add "$VIRTUAL_ENV/bin"
-    export UV_ACTIVE=1  # or VENV_ACTIVE=1
+    export UV_ACTIVE=1
     export VIRTUAL_ENV
    }
    ```
