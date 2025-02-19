@@ -27,6 +27,6 @@ RUN uv pip install -r pyproject.toml --system
 RUN uv pip install -e . --system
 
 USER ${USER}
-ENTRYPOINT ["/home/dsh/dsh/entrypoint.sh"]
+ENTRYPOINT ["python", "-m", "dsh.entrypoint"]
 CMD ["python", "/home/dsh/app/src/main.py"]
 
