@@ -1,8 +1,8 @@
-TENANT := "training"
+TENANT := "kpnbm-e2e-01-acc"
 DOCKER_REPO_URL := "registry.cp.kpn-dsh.com/"+TENANT
 VERSION := "0.1.0"
-TAGNAME := "hello-world"
-TENANTUSERID := "1054"
+TAGNAME := "hello-gino"
+TENANTUSERID := "2076"
 IMAGE := DOCKER_REPO_URL+"/"+TAGNAME+":"+VERSION
 
 all:
@@ -14,6 +14,8 @@ login:
     docker login {{DOCKER_REPO_URL}}
 
 build:
+    dos2unix dsh-entrypoint/setup_ssl_dsh.sh
+    dos2unix dsh-entrypoint/entrypoint.sh
     docker build --platform linux/amd64 -t {{TAGNAME}} -f Dockerfile --build-arg UID={{TENANTUSERID}} .
     docker tag {{TAGNAME}} {{IMAGE}}
 
