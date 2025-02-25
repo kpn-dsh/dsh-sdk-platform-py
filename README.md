@@ -57,6 +57,8 @@ The docker image provided has full UV support integrated, dependencies are autom
 by default the docker points at the `main.py` file in the `src/` directory as main entrypoint for the image, feel free to change this as seen fit
 
 ## creating a docker image from the repository
+> [!NOTE]
+> For compiling on windows you need to install dos2unix and run this on the two sh files. Alternatively you can modify the just file to do this for you
 
 1. make sure you are logged into the docker credentials that are retrieved from the DSH Harbor container registry, details about logging in and retrieving credentials can be found in the official DSH docs
 
