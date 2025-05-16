@@ -14,11 +14,15 @@ def main():
 
     signal.signal(signal.SIGTERM, handle_sigterm)
 
-    while True:
-        msg = consumer.poll(1.0)  # start consuming
-
-        if msg is not None:
-            print(msg.value())
+    try:
+        while True:
+            msg = consumer.poll(1.0)  # start consuming
+            if msg is not None:
+                print(msg.value())
+    except KeyboardInterrupt:
+        pass
+    finally:
+        consumer.close()
 
         # try:
         #     obj = json.loads(msg.value().decode("utf-8"))

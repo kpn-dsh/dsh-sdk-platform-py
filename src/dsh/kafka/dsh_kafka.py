@@ -4,7 +4,6 @@ from confluent_kafka import Consumer, Producer
 from dataclasses import dataclass, fields
 from typing import Optional
 from loguru import logger
-import time
 
 
 @dataclass
@@ -76,59 +75,3 @@ def create_consumer(config: Config) -> Consumer:
             "auto.offset.reset": "latest",
         }
     )
-
-
-def _delivery_report(err, msg):
-    """Called once for each message produced to indicate delivery result.
-    Triggered by poll() or flush()."""
-    if err is not None:
-        logger.warning(f"Message delivery failed: {err}")
-    else:
-        logger.info(f"Message delivered to {msg.topic()} [{msg.partition()}]")
-
-
-def produce_message(producer: Producer, obj, topic) -> None:
-    retries = 3  # Number of retries before giving up
-    retry_delay = 1  # Initial retry delay in seconds
-
-    while retries > 0:
-        try:
-            producer.produce(topic=topic, value=obj, callback=_delivery_report)
-            producer.poll(0)  # Poll to handle delivery reports
-            logger.debug(f"Message produced: {obj}n")
-            return  # Message sent successfully
-
-        except Exception as e:
-            logger.warning(f"Exception raised: {e}")
-            retries -= 1
-            if retries > 0:
-                logger.debug(f"Retrying in {retry_delay} seconds...")
-                time.sleep(retry_delay)
-                retry_delay *= 1  # Exponential backoff
-
-    logger.warning("Failed to send the message after retries.")
-
-
-def consume_topic(consumer: Consumer, topic: str):
-    """
-    Example:
-        kafka_consumer = create_consumer(kafka_config)
-
-        for message in consume_topic(kafka_consumer, "your_topic"):
-            # Your custom logic to handle the consumed message
-            print(f"Received message: {message}")
-            # Add your own while loop or other conditions to control the message consumption behavior.
-    """
-    consumer.subscribe([topic])
-
-    while True:
-        msg = consumer.poll(1.0)
-
-        if msg is None:
-            continue
-        if msg.error():
-            logger.error(f"Consumer error: {msg.error()}")
-            continue
-        value = msg.value()
-        if value is not None:
-            yield value

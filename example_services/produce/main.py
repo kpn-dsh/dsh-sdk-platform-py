@@ -12,14 +12,20 @@ def main():
 
     producer = kafka.create_producer(producer_config)
 
-    signal.signal(signal.SIGTERM, handle_sigterm)
+    count = 0
+    while True:
+        value = f"message-{count}"
+        try:
+            producer.produce(PRODUCE_TOPIC, value)
+            producer.flush()
+            print(f"Produced: {value}")
+        except Exception as e:
+            print(f"Failed to produce message: {e}")
 
-    run = True
-    index = 0
-    while run:
-        kafka.produce_message(producer, f"bye world: {index}", PRODUCE_TOPIC)
-        index += 1
+        count += 1
         time.sleep(5)
+
+    signal.signal(signal.SIGTERM, handle_sigterm)
 
 
 def handle_sigterm(signum, frame):
